@@ -1,0 +1,68 @@
+kubernetes is used for container orchestration
+process of automatically deploying and managing the containers is called container orchestration
+
+Node is where our application will gets deployed and run
+Cluster is a set of nodes, for high availability, load balancer will actually send the customer requests to all the nodes for balancing
+cluster will  manage by the master. master check the nodes and manage the orchestration of containers
+k8s components:
+API Server: acts as a front-end for k8s. users,management devices, command line interface all will actually interact with api server
+Scheduler: responsible for distributing the work or containers across nodes. It actually looks for newly created containers and assign them to nodes.
+container runtime: underlying software to run the containers. (docker)
+etcd:distributed key-value storage.
+controller: notices and informs when the nodes or end points goes down. this will actually take a decision for bringing up new containers or nodes at that disaster
+kubelet: agent that run on each node. it will make sure that containers are running.
+
+Pod is smallest object in k8s.
+its always best to have one container in a pod. but we can have more than one container where one will be helping container. we cannot have same type of containers in a node.
+kubectl run <pod-name> --image <imgage name>
+kubectl get pods
+kubectl delete pod <pod name>
+kubectl exec -it pod <pod name>
+kubectl create -f <pod.yaml>
+kubectl describe pod <pod name>
+kubectl get all
+
+apiVersion:v1
+kind:
+metadata:
+   name:
+   labels:
+     <key>: <value>
+spec:
+  container:
+    image:
+    name:
+    port:
+
+Replicasets:
+ replication controller ensures that the desired number of pods are running on all the times. They will monitor pods using labels and selectors.
+ kubectl scale  --replicas=<number> replicaset <replica name>
+
+ Deployments: gives us the capability to update the underlying instances seemlessly using rolling update stratergy.
+ rolling update: it means one pod comes down and gets updated with code and again comes up
+ kubectl set image deployment/<deployment-name> nginx=nginx:1.9.1
+ rollback:  when there is an issue with the new code and want to go back to previous version. we can use rollback.
+  this for rolling back:kubectl rollout undo deployment/<deployment-name>
+getting status of update:
+ kubectl rollout status deployment/<deployment-name>
+
+ deployment stratergy:
+ 1. rolling update: here we get down one and update that.
+ 2. recreate strategry: we actually get down all pods once and upgrade pods
+
+
+ Services:
+  when we want to interact with container inside the pod from outside i.e: local environment we can do that using services.
+
+NodePort service:
+  service is which listens the network on a port on the node and forward the request to another port  which actually running the container/application.
+  it has 3 ports:
+  targetPort: port where the container is running
+  port: port on which the service itself is running (it is mandatory to specify)
+  nodeport: port on node which is actually listening from customer
+
+ClusterIP:
+service creates a virtual IP inside the cluster to enable connection between different services.
+
+Load balancer:
+

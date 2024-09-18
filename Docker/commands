@@ -1,0 +1,52 @@
+we will give out commands in docker-cli and this will interact with docker daemon. and docker will check if the image is in cache if not it will contact to docker hub and install the image.
+docker version
+docker run <image-name>
+variations of docker run:
+docker run <image-name> command
+example: docker run busybox echo hi there-> this will actually print "hi there"
+docker run busybox ls -> list all the files
+
+
+docker run -it <image-name> <command>
+
+docker run -it <image-name> sh
+the above command will start a shell at the starting of the container itself
+
+
+docker ps
+docker ps --all
+docker run=docker create + docker start
+docker create <image-name>
+docker start -a <container-id> {a will watch any ouptu and print the output to terminal, without a also we can run }
+docker stop <container-id> {will only stops container and do some cleanup, after waiting 10 seconds stop will move to kill}
+docker kill <container-id> {will stops the container without waiting}
+docker system prune (it will delete the containers and images also)
+docker logs <container-id>
+when we want to execute the commands inside the container, then we use docker exec
+docker exec -it <container-id> <command>
+docker exec -it <container-id> sh
+docker run -it <image-name> sh
+
+dockerfile->docker cli->docker-server->usable image
+docker build . (it will take the dockerfile and build the image)
+docker build -t < docker-id/repo or project name: vesrion> .
+
+command to create image from container: docker commit -c 'CMD["starting point"] <container-name>
+docker run -it alpine sh
+
+
+what contains the dockerfile?
+1. base image
+2.run some commands to install dependencies
+3.specify a command to run when the container startup
+
+
+
+FROM golang:1.22-alpine
+COPY . .
+RUN go build -o app main.go
+CMD["./add]
+
+
+
+
